@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Boyfriend's Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Caveat:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mint:#fdecea; --mint-line:#f4d2cc; --cream:#fffaf7; --teal:#b3261e; --teal-dk:#7c1a14;
+  --coral:#e2574a; --pink:#f2a9b8; --ink:#3a2422; --ink-soft:#8a625d; --tape:#f3bcb4;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Quicksand',sans-serif; color:var(--ink); background:#f6dcd6;
+  min-height:100dvh; overflow:hidden;
+}
+h1,h2,.script{font-family:'Fraunces',serif;}
+.script{font-family:'Caveat',cursive; font-weight:700;}
+.eyebrow{font-family:'Caveat',cursive; font-weight:700; color:var(--coral); font-size:1.25rem; margin-bottom:4px;}
+
+/* ---- Frame — full-bleed on every screen size ---- */
+.frame{
+  position:relative; width:100vw; height:100dvh; overflow:hidden;
+  background:var(--mint);
+  background-image:linear-gradient(var(--mint-line) 1px, transparent 1px),linear-gradient(90deg, var(--mint-line) 1px, transparent 1px);
+  background-size:30px 30px;
+}
+@media (min-width:701px){
+  .card-inner{max-width:440px; padding:36px 34px;}
+  .note-card{max-width:360px; padding:42px 34px;}
+  .env-shape{width:210px;}
+  .wheel-holder{width:min(300px,30vw);}
+  .scratch-grid{max-width:340px; gap:16px;}
+  .btn{max-width:300px; font-size:1.02rem;}
+}
+
+/* ---- Dots ---- */
+.dots{position:absolute; top:16px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:5;}
+.dots span{width:7px; height:7px; border-radius:50%; background:var(--mint-line); transition:background .3s, transform .3s;}
+.dots span.done{background:var(--coral);}
+.dots span.now{background:var(--teal); transform:scale(1.3);}
+
+/* ---- Watermark ---- */
+.watermark{position:absolute; right:14px; bottom:10px; font-family:'Caveat',cursive; font-weight:700; font-size:.85rem; color:var(--ink-soft); opacity:.55; pointer-events:none; z-index:6;}
+
+/* ---- Screens ---- */
+.screen{
+  position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
+  padding:52px 24px 30px; text-align:center; overflow-y:auto;
+}
+.screen.active{display:flex; animation:riseIn .5s ease both;}
+@keyframes riseIn{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---- Envelope screen ---- */
+#s-envelope{cursor:pointer; padding-top:24px;}
+.note-card{background:var(--cream); border-radius:14px; padding:34px 26px; max-width:300px; box-shadow:0 18px 40px rgba(120,30,20,.15);}
+.note-card h2{font-size:1.6rem; color:var(--teal-dk); margin-bottom:12px;}
+.note-card p{font-size:1rem; color:var(--ink-soft); line-height:1.5; margin-bottom:6px;}
+.env-shape{width:170px; margin-top:-14px;}
+.tap-hint{margin-top:16px; font-size:.78rem; letter-spacing:.06em; color:var(--ink-soft);}
+
+/* ---- Generic screen content ---- */
+.card-inner{background:var(--cream); border-radius:16px; padding:26px 22px; box-shadow:0 10px 26px rgba(120,30,20,.1); width:100%; max-width:340px; position:relative;}
+.tape{position:absolute; width:56px; height:22px; background:var(--tape); opacity:.75; border-radius:2px; top:-11px; left:16px; transform:rotate(-8deg);}
+h1{font-size:clamp(1.6rem,7vw,2.1rem); color:var(--ink); line-height:1.18; font-weight:600;}
+h2.title{font-size:1.35rem; color:var(--ink); margin-bottom:2px;}
+.sub{color:var(--ink-soft); font-size:.92rem; margin-bottom:14px;}
+.letter p{font-size:.98rem; line-height:1.65; color:var(--ink-soft); margin-top:12px;}
+.collage{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px;}
+.collage .tile{aspect-ratio:1; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.7rem; box-shadow:0 6px 16px rgba(120,30,20,.1);}
+.tile.a{background:#fbe0da;} .tile.b{background:var(--mint); border:1px solid var(--mint-line);} .tile.c{background:#fbe4e8;}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; max-width:260px;
+  background:var(--teal); color:#fff; border:none; border-radius:999px; padding:14px 20px;
+  font-family:'Quicksand',sans-serif; font-weight:600; font-size:.98rem; cursor:pointer;
+  transition:transform .15s ease, background .2s ease; margin-top:20px;
+}
+.btn:hover{background:var(--teal-dk);}
+.btn:active{transform:scale(.97);}
+.btn:focus-visible{outline:3px solid var(--coral); outline-offset:2px;}
+.btn[hidden]{display:none;}
+@keyframes popIn{0%{transform:scale(.6); opacity:0;} 70%{transform:scale(1.06); opacity:1;} 100%{transform:scale(1);}}
+.btn.pop{animation:popIn .45s cubic-bezier(.34,1.56,.64,1);}
+
+/* ---- wheel ---- */
+.wheel-holder{position:relative; width:min(230px,62vw); aspect-ratio:1; margin:6px auto 4px;}
+.wheel-holder svg{width:100%; height:100%; display:block; transition:transform 4.5s cubic-bezier(.17,.89,.32,1.02);}
+.pointer{position:absolute; top:-5px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:16px solid var(--coral); z-index:2;}
+#wheelResult{font-family:'Caveat',cursive; font-weight:700; font-size:1.3rem; color:var(--teal-dk); min-height:1.8rem;}
+
+/* ---- scratch grid (4 cards) ---- */
+.scratch-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; width:100%; max-width:260px;}
+.scratch-cell{position:relative; aspect-ratio:1; border-radius:14px; overflow:hidden; box-shadow:0 6px 16px rgba(120,30,20,.1);}
+.scratch-cell .under{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:8px; font-family:'Caveat',cursive; font-weight:700; font-size:1.02rem; color:var(--teal-dk); background:#fdf3ec;}
+.scratch-cell canvas{position:absolute; inset:0; width:100%; height:100%; touch-action:none; cursor:grab;}
+.scratch-count{color:var(--ink-soft); font-size:.85rem; margin-top:10px;}
+
+/* ---- coupon ---- */
+.coupon{border:2px dashed var(--teal); border-radius:14px; padding:22px; text-align:center; background:repeating-linear-gradient(135deg,#fff,#fff 10px,#fbf1ec 10px,#fbf1ec 20px); position:relative; cursor:pointer; overflow:hidden; margin-top:16px;}
+.coupon .label{font-size:.75rem; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:6px;}
+.coupon .big{font-family:'Fraunces',serif; font-weight:600; font-size:1.35rem; color:var(--teal-dk); line-height:1.2;}
+.coupon .sign{margin-top:12px; font-family:'Caveat',cursive; font-weight:700; color:var(--coral); font-size:1.1rem;}
+.coupon .hint{margin-top:10px; font-size:.72rem; color:var(--ink-soft); opacity:.7;}
+.stamp{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-14deg) scale(2); border:4px solid var(--teal); border-radius:10px; padding:5px 14px; font-family:'Fraunces',serif; font-weight:700; font-size:1.25rem; letter-spacing:.12em; color:var(--teal); opacity:0; pointer-events:none;}
+@keyframes stampIn{0%{transform:translate(-50%,-50%) rotate(-14deg) scale(2.2); opacity:0;} 60%{opacity:.9;} 100%{transform:translate(-50%,-50%) rotate(-14deg) scale(1); opacity:.88;}}
+.coupon.stamped .stamp{animation:stampIn .35s ease-out forwards;}
+
+footer.foot{margin-top:18px; color:var(--ink-soft); font-size:.78rem;}
+footer.foot .heart{color:var(--pink);}
+</style>
+</head>
+<body>
+<div class="frame" id="frame">
+  <div class="dots" id="dots"></div>
+  <div class="watermark">made by Storymint Studio</div>
+
+  <section class="screen active" id="s-envelope">
+    <div class="note-card">
+      <h2>Hey You! 💌</h2>
+      <p>I made a little something just for you&hellip;</p>
+      <p class="script" style="font-size:1.2rem;color:var(--coral)">happy boyfriend's day</p>
+    </div>
+    <svg class="env-shape" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="20" width="192" height="96" rx="8" fill="#f6cfc8" stroke="var(--teal)" stroke-width="2"/>
+      <path d="M4 24 L100 84 L196 24" fill="none" stroke="var(--teal)" stroke-width="2"/>
+    </svg>
+    <p class="tap-hint">tap anywhere to begin</p>
+  </section>
+
+  <section class="screen" id="s-letter">
+    <div class="card-inner">
+      <div class="tape"></div>
+      <p class="eyebrow">happy boyfriend's day</p>
+      <h1>To my favourite person, to the best one.</h1>
+      <div class="letter"><p>Every year this day rolls around and I think the same thing — I got so lucky with you. So instead of one more text, I built you this tiny corner of the internet. Stay a while, there's a bit to see.</p></div>
+      <div class="collage"><div class="tile a">🌷</div><div class="tile b">🐾</div><div class="tile c">🧸</div></div>
+    </div>
+    <button class="btn" data-next>read on →</button>
+  </section>
+
+  <section class="screen" id="s-wheel">
+    <div class="card-inner">
+      <p class="eyebrow">spin for us</p>
+      <h2 class="title">what are we doing tonight?</h2>
+      <p class="sub">spin it — whatever it lands on, we're doing</p>
+      <div class="wheel-holder"><div class="pointer"></div><svg id="wheel" viewBox="0 0 300 300"></svg></div>
+      <button class="btn" id="spinBtn" style="margin-top:14px;">spin the wheel</button>
+      <div id="wheelResult"></div>
+    </div>
+    <button class="btn" id="wheelNext" hidden>keep going →</button>
+  </section>
+
+  <section class="screen" id="s-scratch">
+    <div class="card-inner">
+      <p class="eyebrow">little truths</p>
+      <h2 class="title">scratch these open</h2>
+      <p class="sub">rub each one — there's something under it</p>
+      <div class="scratch-grid" id="scratchGrid"></div>
+      <p class="scratch-count"><span id="scratchDone">0</span> of 4 uncovered</p>
+    </div>
+    <button class="btn" id="scratchNext" hidden>you found them all — continue →</button>
+  </section>
+
+  <section class="screen" id="s-coupon">
+    <div class="card-inner">
+      <p class="eyebrow">redeem anytime &middot; tap the coupon</p>
+      <div class="coupon" id="couponCard">
+        <div class="label">COUPON FOR</div>
+        <div class="big">1 Free Hug &amp; Kisses</div>
+        <div class="label" style="margin-top:8px;">no expiry &middot; no conditions</div>
+        <div class="sign">yours, always</div>
+        <div class="hint" id="couponHint">tap to redeem</div>
+        <div class="stamp" id="stamp">REDEEMED</div>
+      </div>
+      <footer class="foot">made with <span class="heart">♥</span> for you &nbsp;&middot;&nbsp; @storymint.studio</footer>
+    </div>
+    <button class="btn" id="restartBtn">watch it again ↺</button>
+  </section>
+</div>
+
+<script>
+const screens = ["s-envelope","s-letter","s-wheel","s-scratch","s-coupon"].map(id=>document.getElementById(id));
+let idx = 0;
+const dotsWrap = document.getElementById('dots');
+for(let i=1;i<screens.length;i++){ const d=document.createElement('span'); d.dataset.i=i; dotsWrap.appendChild(d); }
+function renderDots(){
+  dotsWrap.querySelectorAll('span').forEach(d=>{
+    const i=+d.dataset.i;
+    d.classList.toggle('now', i===idx);
+    d.classList.toggle('done', i<idx);
+  });
+  dotsWrap.style.opacity = idx===0 ? 0 : 1;
+}
+let scratchSized = false;
+function goTo(i){
+  screens[idx].classList.remove('active');
+  idx = i;
+  screens[idx].classList.add('active');
+  renderDots();
+  if(screens[idx].id === 's-scratch' && !scratchSized){
+    scratchSized = true;
+    requestAnimationFrame(()=> scratchSizeFns.forEach(fn=>fn()));
+  }
+}
+renderDots();
+document.getElementById('s-envelope').addEventListener('click', ()=>goTo(1));
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click', ()=>goTo(idx+1)));
+document.getElementById('wheelNext').addEventListener('click', ()=>goTo(idx+1));
+document.getElementById('scratchNext').addEventListener('click', ()=>goTo(idx+1));
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  document.getElementById('wheelResult').textContent='';
+  document.getElementById('wheelNext').hidden = true;
+  goTo(0);
+});
+
+// ----- spin wheel -----
+const optionLabels = ["Movie Night","His Fav Meal","Voice Note","Surprise Kiss","Photo Dump","Handwritten Note","Game Night","Late Night Call"];
+const optionIcons = ["🎬","🍝","🎤","💋","📸","💌","🎮","☎️"];
+const colors = ["#b3261e","#e2574a","#f2a9b8","#c0392b","#e88a7a","#f6c1b8","#a52017","#eb6f5f"];
+const wheelSvg = document.getElementById('wheel');
+const n = optionLabels.length, cx=150, cy=150, r=140, slice = 2*Math.PI/n;
+let paths = "";
+for(let i=0;i<n;i++){
+  const a0 = i*slice - Math.PI/2, a1 = (i+1)*slice - Math.PI/2;
+  const x0 = cx + r*Math.cos(a0), y0 = cy + r*Math.sin(a0);
+  const x1 = cx + r*Math.cos(a1), y1 = cy + r*Math.sin(a1);
+  paths += `<path d="M${cx},${cy} L${x0},${y0} A${r},${r} 0 0,1 ${x1},${y1} Z" fill="${colors[i%colors.length]}" stroke="#fff" stroke-width="2"/>`;
+  const mid = a0 + slice/2, tx = cx + (r*0.66)*Math.cos(mid), ty = cy + (r*0.66)*Math.sin(mid);
+  paths += `<text x="${tx}" y="${ty}" font-size="26" text-anchor="middle" dominant-baseline="middle">${optionIcons[i]}</text>`;
+}
+paths += `<circle cx="${cx}" cy="${cy}" r="18" fill="#fffdf8" stroke="var(--teal)" stroke-width="2"/>`;
+wheelSvg.innerHTML = paths;
+
+let currentRotation = 0, spinning = false;
+document.getElementById('spinBtn').addEventListener('click', () => {
+  if(spinning) return;
+  spinning = true;
+  const resultEl = document.getElementById('wheelResult');
+  resultEl.textContent = "";
+  const chosen = Math.floor(Math.random()*n);
+  const targetSliceCenter = 360 - (chosen*360/n + 180/n);
+  const extraSpins = 5*360;
+  currentRotation = currentRotation - (currentRotation % 360) + extraSpins + targetSliceCenter;
+  wheelSvg.style.transform = `rotate(${currentRotation}deg)`;
+  setTimeout(() => {
+    resultEl.textContent = "it's " + optionIcons[chosen] + " " + optionLabels[chosen] + "!";
+    spinning = false;
+    const nb = document.getElementById('wheelNext');
+    if(nb.hidden){ nb.hidden=false; nb.classList.add('pop'); }
+  }, 4600);
+});
+
+// ----- scratch cards (4) -----
+const truths = [
+  "you make ordinary days feel special",
+  "i still get a little nervous around you",
+  "you're my favourite notification",
+  "i'd choose you again, every time"
+];
+const grid = document.getElementById('scratchGrid');
+let doneCount = 0;
+const scratchSizeFns = [];
+truths.forEach((text) => {
+  const cell = document.createElement('div');
+  cell.className = 'scratch-cell';
+  cell.innerHTML = `<div class="under">${text}</div><canvas></canvas>`;
+  grid.appendChild(cell);
+  const canvas = cell.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  let revealed = false;
+  function size(){
+    const rect = cell.getBoundingClientRect();
+    canvas.width = rect.width; canvas.height = rect.height;
+    const g = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+    g.addColorStop(0,"#e7a89e"); g.addColorStop(1,"#d88073");
+    ctx.fillStyle = g; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(255,255,255,.7)";
+    ctx.font = "600 12px Quicksand, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("scratch", canvas.width/2, canvas.height/2);
+  }
+  scratchSizeFns.push(size);
+  window.addEventListener('resize', size);
+  function scratchAt(x,y){
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
+    checkClear();
+  }
+  function checkClear(){
+    if(revealed) return;
+    const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let cleared = 0;
+    for(let p=3; p<data.length; p+=4*20) if(data[p]===0) cleared++;
+    if(cleared / (data.length/(4*20)) > 0.5){
+      revealed = true; doneCount++;
+      canvas.style.transition = "opacity .4s ease";
+      canvas.style.opacity = "0";
+      document.getElementById('scratchDone').textContent = doneCount;
+      if(doneCount === truths.length){
+        const btn = document.getElementById('scratchNext');
+        btn.hidden = false; btn.classList.add('pop');
+      }
+    }
+  }
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return {x: t.clientX-rect.left, y: t.clientY-rect.top};
+  }
+  let drawing = false;
+  canvas.addEventListener('pointerdown', e => { drawing = true; const p=pos(e); scratchAt(p.x,p.y); });
+  canvas.addEventListener('pointermove', e => { if(drawing){ const p=pos(e); scratchAt(p.x,p.y); } });
+  window.addEventListener('pointerup', () => drawing = false);
+});
+
+// ----- coupon stamp -----
+const couponCard = document.getElementById('couponCard');
+const couponHint = document.getElementById('couponHint');
+couponCard.addEventListener('click', () => {
+  const isStamped = couponCard.classList.toggle('stamped');
+  couponHint.textContent = isStamped ? 'redeemed — tap to undo' : 'tap to redeem';
+});
+</script>
+</body>
+</html>
